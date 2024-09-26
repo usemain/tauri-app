@@ -1,0 +1,15 @@
+.footerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 25px;
+  background-color: #0080ff;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.copyrightText {
+  color: #f6f6f6;
+  font-size: 11px;
+}
