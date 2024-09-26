@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Layout, Modal } from "@arco-design/web-react";
+import { Layout } from "@arco-design/web-react";
 import { ITheme } from "../../typings/types";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Keys } from "../../constants/keywords";
@@ -13,10 +13,8 @@ import Settings from "../Settings";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
-
 const Index: React.FC = () => {
   const sysStore = useSysStore();
-  const [isChangingTheme, setIsChangingTheme] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -40,25 +38,6 @@ const Index: React.FC = () => {
   }, [sysStore.theme]);
 
   useHotkeys(Keys.ALT_T, () => {
-    if (sysStore.platform === "windows") {
-      if (isChangingTheme) return;
-      setIsChangingTheme(true);
-      Modal.confirm({
-        title: "提示",
-        content: "切换主题后应用需要重新启动!",
-        okText: "确定",
-        cancelText: "取消",
-        onOk() {
-          invoke(COMMAND.SET_THEME, {
-            theme: sysStore.theme === "dark" ? "light" : "dark",
-          });
-        },
-        onCancel() {
-          setIsChangingTheme(false);
-        },
-      });
-      return;
-    }
     sysStore.toogleTheme();
   });
 
