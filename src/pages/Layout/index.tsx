@@ -4,8 +4,6 @@ import { Layout } from "@arco-design/web-react";
 import { ITheme } from "../../typings/types";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Keys } from "../../constants/keywords";
-import { invoke } from "@tauri-apps/api/core";
-import { COMMAND } from "../../constants/command";
 import useSysStore from "../../store/sys";
 import styles from "./index.module.css";
 import Home from "../Home";
@@ -18,18 +16,12 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      invoke(COMMAND.GET_THEME)
-        .then((res) => {
-          sysStore.setTheme(res as ITheme);
-        })
-        .catch(() => {
-          const res = localStorage.getItem("theme");
-          if (res) {
-            sysStore.setTheme(res as ITheme);
-          } else {
-            sysStore.setTheme("auto");
-          }
-        });
+      const res = localStorage.getItem("theme");
+      if (res) {
+        sysStore.setTheme(res as ITheme);
+      } else {
+        sysStore.setTheme("auto");
+      }
     }, 1500);
   }, []);
 
@@ -38,7 +30,7 @@ const Index: React.FC = () => {
   }, [sysStore.theme]);
 
   useHotkeys(Keys.ALT_T, () => {
-    sysStore.toogleTheme();
+    sysStore.toggleTheme();
   });
 
   return (

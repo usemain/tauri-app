@@ -8,8 +8,6 @@ fn greet(name: &str) -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let mut ctx = tauri::generate_context!();
-
     tauri::Builder::default()
         .setup(|app| {
             let main_window = app.get_webview_window("main").unwrap();
@@ -19,15 +17,10 @@ pub fn run() {
                     .set_decorations(false)
                     .expect("Failed to set window decorations");
             }
-            // tauri::async_runtime::spawn(async move {
-            //     std::thread::sleep(std::time::Duration::from_secs(1));
-            //     main_window.show().unwrap();
-            // });
             Ok(())
         })
         .plugin(tauri_plugin_os::init())
-        .plugin(tauri_plugin_theme::init(ctx.config_mut()))
         .invoke_handler(tauri::generate_handler![greet])
-        .run(ctx)
+        .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

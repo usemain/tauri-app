@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import { ITheme } from "../typings/types";
 import { platform, Platform } from "@tauri-apps/plugin-os";
-import { invoke } from "@tauri-apps/api/core";
-import { COMMAND } from "../constants/command";
 
 const themeData = {
   dark: {
@@ -19,7 +17,7 @@ type Props = {
   platform: Platform;
   theme: ITheme | undefined;
   setTheme: (theme: ITheme) => void;
-  toogleTheme: () => void;
+  toggleTheme: () => void;
 };
 
 const useSysStore = create<Props>((set) => ({
@@ -43,11 +41,9 @@ const useSysStore = create<Props>((set) => ({
 
       localStorage.setItem("theme", theme);
 
-      invoke(COMMAND.SET_THEME, { theme });
-
       return { theme };
     }),
-  toogleTheme: () =>
+  toggleTheme: () =>
     set((state) => {
       const theme = state.theme === "dark" ? "light" : "dark";
 
@@ -55,8 +51,7 @@ const useSysStore = create<Props>((set) => ({
       document.body.style.color = themeData[theme].color;
 
       localStorage.setItem("theme", theme);
-      
-      invoke(COMMAND.SET_THEME, { theme });
+
       return { theme };
     }),
 }));

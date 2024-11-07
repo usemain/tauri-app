@@ -21,7 +21,8 @@
         "minHeight": 600,
         "titleBarStyle": "Overlay",
         "transparent": true,
-        "resizable": true
+        "resizable": true,
+        "theme": "Light"
       }
     ],
     "security": {
